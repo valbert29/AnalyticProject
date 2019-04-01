@@ -172,9 +172,9 @@ namespace VSZANAL.Controllers
                     userFile.Time = time;
                     userFile.Path = "/Files/" + filename;
                     userFile.UserId = user.Id;
-                    SaveFileAfterEdit(filename, text, oldName);
                     _context.Update(userFile);
                     await _context.SaveChangesAsync();
+                    SaveFileAfterEdit(filename, text, oldName);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -232,14 +232,26 @@ namespace VSZANAL.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        /*public FileResult Download(string fileName)
+        public FileResult Download(string filename)
         {
-            var filePath = @"D:\MY WORK\infa\CSWEB\" + fileName;
-            var fs = new FileStream(filePath, FileMode.Open);
-            var userFile = ToShortName(fileName) + ".txt";
-            var contentType = "application/text";
-            return File(fs, contentType, userFile);
-        }*/
+            var path =_appEnvironment.WebRootPath + filename;
+            // Объект Stream
+            FileStream fs = new FileStream(path, FileMode.Open);
+            string file_type = "application/txt";
+            string file_name = ToShortName(filename) + ".txt";
+            return File(fs, file_type, file_name);
+        }
+
+        private async User GetUser()
+        {
+            var login = HttpContext.Response.HttpContext.User.Identity.Name;
+            return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+        }
+
+        private string ToShortName(string fileName)
+        {
+            return fileName.Remove(fileName.Length - 24, 24).Remove(0, 7);
+        }
 
         private bool UserFileExists(int id)
         {

@@ -45,9 +45,10 @@
                 @Html.DisplayFor(modelItem => item.User.Id)
             </td>
             <td>
+                <input type="text" hidden="hidden" id="testinput" name="testinput" value="@item.Path" />
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Download?filename=@item.Path" asp-route-id="@item.Id">Download</a> |
+                <a href="\UserFiles\Download?filename=@item.Path">Download</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
