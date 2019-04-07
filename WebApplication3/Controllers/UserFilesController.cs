@@ -242,11 +242,11 @@ namespace VSZANAL.Controllers
             return File(fs, file_type, file_name);
         }
 
-        private async User GetUser()
+        /*private async User GetUser()
         {
             var login = HttpContext.Response.HttpContext.User.Identity.Name;
             return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-        }
+        }*/
 
         private string ToShortName(string fileName)
         {
