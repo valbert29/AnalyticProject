@@ -234,7 +234,7 @@ namespace VSZANAL.Controllers
 
         public FileResult Download(string filename)
         {
-            var path =_appEnvironment.WebRootPath + filename;
+            var path = _appEnvironment.WebRootPath + filename;
             // Объект Stream
             FileStream fs = new FileStream(path, FileMode.Open);
             string file_type = "application/txt";
@@ -242,11 +242,11 @@ namespace VSZANAL.Controllers
             return File(fs, file_type, file_name);
         }
 
-        //private async User GetUser()
-        //{
-        //    var login = HttpContext.Response.HttpContext.User.Identity.Name;
-        //    return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-        //}
+        /*private async User GetUser()
+        {
+            var login = HttpContext.Response.HttpContext.User.Identity.Name;
+            return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+        }*/
 
         private string ToShortName(string fileName)
         {

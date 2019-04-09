@@ -17,5 +17,17 @@ namespace WebApplication3.Models
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Role>().HasData(
+                new Role[]
+                {
+                new Role { ID=1, Name="User",},
+                new Role { ID=2, Name="Admin"},
+                new Role { ID=3, Name="VIP"}
+                });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
