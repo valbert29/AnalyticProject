@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,9 @@ namespace WebApplication3.Models
         public string Login { get; set; }
         public string Password { get; set; }
         public string Avatar { get; set; }
+        [NotMapped]
+        public List<string> Subscription { get; set; }
+
 
         public virtual List<UserFile> Files { get; set; }
         public User()
@@ -52,5 +56,11 @@ namespace WebApplication3.Models
         public string Name { get; set; }
         public decimal Value { get; set; }
         public int? Previous { get; set; }
+    }
+
+    public class Subscription
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }

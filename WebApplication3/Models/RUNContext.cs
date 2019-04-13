@@ -12,6 +12,7 @@ namespace WebApplication3.Models
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserFile> Files { get; set; }
         public DbSet<Currency> Currency { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
         public RUNContext(DbContextOptions<RUNContext> options)
             : base(options)
         {
