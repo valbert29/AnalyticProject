@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
 using WebApplication3.ViewModels;
 
-namespace WebApplication3.Controllers
+namespace VSZANAL.Controllers
 {
     public class AccountController : Controller
     {

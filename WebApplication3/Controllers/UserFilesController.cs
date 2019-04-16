@@ -89,8 +89,6 @@ namespace VSZANAL.Controllers
 
         private void SaveToFile(string text, string filename)
         {
-            //var filename = name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
-
             string path = "/Files/" + filename;
 
             try
@@ -241,12 +239,6 @@ namespace VSZANAL.Controllers
             string file_name = ToShortName(filename) + ".txt";
             return File(fs, file_type, file_name);
         }
-
-        /*private async User GetUser()
-        {
-            var login = HttpContext.Response.HttpContext.User.Identity.Name;
-            return await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-        }*/
 
         private string ToShortName(string fileName)
         {

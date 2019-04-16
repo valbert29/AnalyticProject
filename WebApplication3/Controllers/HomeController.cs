@@ -13,7 +13,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System;
 
-namespace WebApplication3.Controllers
+namespace VSZANAL.Controllers
 {
     public class HomeController : Controller
     {
