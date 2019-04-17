@@ -86,7 +86,7 @@ namespace VSZANAL.Controllers
         }
 
 
-
+        [Authorize]
         public IActionResult ProfilePage()
         {
             var login = HttpContext.Response.HttpContext.User.Identity.Name;

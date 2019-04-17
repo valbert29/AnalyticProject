@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,6 +25,7 @@ namespace VSZANAL.Controllers
         }
 
         // GET: UserFiles
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var login = HttpContext.Response.HttpContext.User.Identity.Name;
@@ -75,9 +77,13 @@ namespace VSZANAL.Controllers
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
                 var time = DateTime.Now;
                 var filename = userFile.Name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
-                userFile.Time = time;
-                userFile.Path = "/Files/" + filename;
-                userFile.UserId = user.Id;
+                if (userFile.Previous == 0)
+                {
+                    userFile.Time = time;
+                    userFile.Path = "/Files/" + filename;
+                    userFile.UserId = user.Id;
+                    userFile.Previous = -1;
+                }                
                 _context.Add(userFile);//в бд
                 SaveToFile(text, filename);//в папку
                 await _context.SaveChangesAsync();
@@ -163,16 +169,16 @@ namespace VSZANAL.Controllers
             {
                 try
                 {
+                    
                     var login = HttpContext.Response.HttpContext.User.Identity.Name;
                     User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
                     var time = DateTime.Now;
                     var filename = userFile.Name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
-                    userFile.Time = time;
-                    userFile.Path = "/Files/" + filename;
-                    userFile.UserId = user.Id;
-                    _context.Update(userFile);
+                    var newUs = new UserFile { Name = userFile.Name,Path = "/Files/" + filename, Time = time, UserId = user.Id, Previous=userFile.Id};
+                    
+                    //_context.Update(userFile);
+                    await Create(newUs, text);
                     await _context.SaveChangesAsync();
-                    SaveFileAfterEdit(filename, text, oldName);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -189,13 +195,6 @@ namespace VSZANAL.Controllers
             }
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userFile.UserId);
             return View(userFile);
-        }
-
-        private void SaveFileAfterEdit(string filename, string text, string oldName)
-        {
-            var path = _appEnvironment.WebRootPath + "/Files/" + oldName;
-            RemoveFile(path);
-            SaveToFile(text, filename);
         }
 
         // GET: UserFiles/Delete/5
