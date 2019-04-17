@@ -19,4 +19,8 @@
     <Folder Include="wwwroot\Avatar\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\js\PieChart.js" />
+  </ItemGroup>
+
 </Project>
