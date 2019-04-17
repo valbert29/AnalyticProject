@@ -48,6 +48,17 @@ namespace WebApplication3.Models
 
         public int? UserId { get; set; }
         public virtual User User { get; set; }
+        public int Previous { get; set; }
+    }
+
+    public enum SortState
+    {
+        NameAsc,    // по имени по возрастанию
+        NameDesc,   // по имени по убыванию
+        TimeAsc, // по возрасту по возрастанию
+        TimeDesc,    // по возрасту по убыванию
+        CompanyAsc, // по компании по возрастанию
+        CompanyDesc // по компании по убыванию
     }
 
     public class Currency
@@ -63,4 +74,5 @@ namespace WebApplication3.Models
         public string Name { get; set; }
         public int Id { get; set; }
     }
+
 }

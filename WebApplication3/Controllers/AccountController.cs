@@ -73,10 +73,6 @@ namespace VSZANAL.Controllers
             return View(model);
         }
 
-        private async Task GetUser()
-        {
-
-        }
 
         private async Task Authenticate(string userName)
         {
