@@ -25,15 +25,50 @@ namespace VSZANAL.Controllers
         }
 
         // GET: UserFiles
+        //[Authorize]
+        //public async Task<IActionResult> Index()
+        //{
+        //    var login = HttpContext.Response.HttpContext.User.Identity.Name;
+        //    User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+        //    ViewBag.login = user.Id;
+        //    var rUNContext = _context.Files.Include(u => u.User);
+        //    return View(await rUNContext.ToListAsync());
+
+        //}
+
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
         {
             var login = HttpContext.Response.HttpContext.User.Identity.Name;
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
             ViewBag.login = user.Id;
-            var rUNContext = _context.Files.Include(u => u.User);
-            return View(await rUNContext.ToListAsync());
+            IQueryable<UserFile> users = _context.Files.Include(u => u.User);
 
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewData["TimeSort"] = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
+
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    users = users.OrderByDescending(s => s.Name);
+                    break;
+                case SortState.TimeAsc:
+                    users = users.OrderBy(s => s.Time);
+                    break;
+                case SortState.TimeDesc:
+                    users = users.OrderByDescending(s => s.Time);
+                    break;
+                /*case SortState.CompanyAsc:
+                    users = users.OrderBy(s => s.Company.Name);
+                    break;
+                case SortState.CompanyDesc:
+                    users = users.OrderByDescending(s => s.Company.Name);
+                    break;*/
+                default:
+                    users = users.OrderBy(s => s.Name);
+                    break;
+            }
+            return View(await users.AsNoTracking().ToListAsync());
         }
 
         // GET: UserFiles/Details/5
@@ -83,7 +118,7 @@ namespace VSZANAL.Controllers
                     userFile.Path = "/Files/" + filename;
                     userFile.UserId = user.Id;
                     userFile.Previous = -1;
-                }                
+                }
                 _context.Add(userFile);//в бд
                 SaveToFile(text, filename);//в папку
                 await _context.SaveChangesAsync();
@@ -169,13 +204,13 @@ namespace VSZANAL.Controllers
             {
                 try
                 {
-                    
+
                     var login = HttpContext.Response.HttpContext.User.Identity.Name;
                     User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
                     var time = DateTime.Now;
                     var filename = userFile.Name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
-                    var newUs = new UserFile { Name = userFile.Name,Path = "/Files/" + filename, Time = time, UserId = user.Id, Previous=userFile.Id};
-                    
+                    var newUs = new UserFile { Name = userFile.Name, Path = "/Files/" + filename, Time = time, UserId = user.Id, Previous = userFile.Id };
+
                     //_context.Update(userFile);
                     await Create(newUs, text);
                     await _context.SaveChangesAsync();
