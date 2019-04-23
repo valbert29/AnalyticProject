@@ -24,7 +24,7 @@
 
         .row {
             margin-bottom: 15px;
-            margin-top:15px;
+            margin-top:15px;    
         }
 
         .col-1-2 {
@@ -49,13 +49,15 @@
         .col-2-5 {
             width: 40%;
             float: left;
-            border: 1px solid black
+            border: 1px solid black;
+            
         }
 
         .col-3-5 {
             width: 60%;
             float: left;
-            border: 1px solid black
+            border: 1px solid black;
+            
         }
 
             .col-3-5 img {
@@ -75,6 +77,11 @@
             background-color: whitesmoke;
             float: left;
             width: 20vw;   
+        }
+        .down{
+            border:1px solid grey;
+            border-radius:10px;
+            padding:10px;  
         }
     </style>
 
@@ -101,7 +108,6 @@
             <div class="row">
                 <div class="col-3-5">
                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                    <script src="~//PieChart.js"></script>
                     @*<script>
         google.charts.load('current', { 'packages': ['corechart'] });
                                 google.charts.setOnLoadCallback(drawChart);
@@ -134,21 +140,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-1-2">
-                    <a class="btn" href="#">SAVE</a>
+                <div class="col-3-5">
                 </div>
-                <div class="col-1-2">
-                    <a class="btn" href="#">
+                <div class="col-2-5">
+                    <div class="down">
                         @model IEnumerable<WebApplication3.Models.UserFile>
-                        @{
-                            ViewBag.Title = "Upload";
-                        }
                         <h3>Выберите файл для загрузки</h3>
-                        <form asp-action="AddFile" asp-controller="Home" method="post" enctype="multipart/form-data">
-                            <input type="file" name="uploads" /><br>
+                        <form asp-action="AddFile" class="down" asp-controller="Home" method="post" enctype="multipart/form-data">
+                            <input type="file" name="uploads" accept=".txt" /><br>
                             <input type="submit" value="Загрузить" />
                         </form>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

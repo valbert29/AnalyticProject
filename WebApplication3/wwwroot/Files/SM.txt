@@ -1,0 +1,218 @@
+
+<Huawei>sys
+Enter system view, return user view with Ctrl+Z.
+[Huawei]sysn	
+[Huawei]sysname swich1	
+[swich1]dhcp enable 
+Info: The operation may take a few seconds. Please wait for a moment.done.
+
+//Создание пула адресов
+[swich1]ip pool 10
+
+Info:It's successful to create an IP address pool.
+[swich1-ip-pool-10]network 172.16.2.0 mask 23
+
+
+[swich1-ip-pool-10]dns-list 172.16.2.2	
+
+[swich1-ip-pool-10]gateway-list 172.16.2.1
+	
+[swich1-ip-pool-10]lease day 5
+
+[swich1-ip-pool-10]excluded-ip-address 172.16.3.200 172.16.3.254
+
+[swich1-ip-pool-10]domain-name KPFU
+
+[swich1-ip-pool-10]quit 
+
+[swich1]disp ip pool name 10 
+  Pool-name      : 10
+  Pool-No        : 0
+  Lease          : 5 Days 0 Hours 0 Minutes
+  Domain-name    : KPFU
+  DNS-server0    : 172.16.2.2      
+  NBNS-server0   : -               
+  Netbios-type   : -               
+  Position       : Local           Status           : Unlocked
+  Gateway-0      : 172.16.2.1      
+  Mask           : 255.255.254.0
+  VPN instance   : --
+ -----------------------------------------------------------------------------
+         Start           End     Total  Used  Idle(Expired)  Conflict  Disable
+ -----------------------------------------------------------------------------
+      172.16.2.1    172.16.3.254   509     0        454(0)         0       55
+ -----------------------------------------------------------------------------
+
+[swich1]vl	
+[swich1]vlan 10
+[swich1-vlan10]
+
+[swich1-vlan10]quit 
+
+[swich1]int Vlanif 10
+
+[swich1-Vlanif10]ip address 172.16.3.250 23
+	
+[swich1-Vlanif10]quit 
+	
+[swich1]quit 
+	
+<swich1>save 
+The current configuration will be written to the device.
+Are you sure to continue?[Y/N]y
+Info: Please input the file name ( *.cfg, *.zip ) [vrpcfg.zip]:
+Dec 10 2018 10:36:20-08:00 swich1 %%01CFM/4/SAVE(l)[0]:The user chose Y when dec
+iding whether to save the configuration to the device.
+Now saving the current configuration to the slot 0.
+Save the configuration successfully.
+	
+<swich1>system-view 
+Enter system view, return user view with Ctrl+Z.
+
+[swich1]interface Ethernet0/0/1
+
+[swich1-Ethernet0/0/1]port link-type access 
+	
+[swich1-Ethernet0/0/1]port default vlan 10
+Dec 10 2018 10:37:32-08:00 swich1 %%01IFNET/4/IF_STATE(l)[1]:Interface Vlanif10 
+has turned into UP state.
+Dec 10 2018 10:37:32-08:00 swich1 %%01IFNET/4/LINK_STATE(l)[2]:The line protocol
+ IP on the interface Vlanif10 has entered the UP state.
+		
+[swich1-Ethernet0/0/1]quit
+[swich1]interface Ethernet0/0/2
+[swich1-Ethernet0/0/2]port link-type access
+[swich1-Ethernet0/0/2]port default vlan 10
+[swich1-Ethernet0/0/2]
+Dec 10 2018 10:38:45-08:00 swich1 %%01IFNET/4/IF_STATE(l)[3]:Interface Vlanif1 h
+as turned into DOWN state.	
+[swich1-Ethernet0/0/2]quit 
+	
+[swich1]interface Vlanif 10
+
+[swich1-Vlanif10]dhcp select global 
+	
+[swich1-Vlanif10]quit 
+
+[swich1]display ip pool name 10 
+  Pool-name      : 10
+  Pool-No        : 0
+  Lease          : 5 Days 0 Hours 0 Minutes
+  Domain-name    : KPFU
+  DNS-server0    : 172.16.2.2      
+  NBNS-server0   : -               
+  Netbios-type   : -               
+  Position       : Local           Status           : Unlocked
+  Gateway-0      : 172.16.2.1      
+  Mask           : 255.255.254.0
+  VPN instance   : --
+ -----------------------------------------------------------------------------
+         Start           End     Total  Used  Idle(Expired)  Conflict  Disable
+ -----------------------------------------------------------------------------
+      172.16.2.1    172.16.3.254   509     1        453(0)         0       55
+ -----------------------------------------------------------------------------
+
+[swich1]display ip pool name 10 
+  Pool-name      : 10
+  Pool-No        : 0
+  Lease          : 5 Days 0 Hours 0 Minutes
+  Domain-name    : KPFU
+  DNS-server0    : 172.16.2.2      
+  NBNS-server0   : -               
+  Netbios-type   : -               
+  Position       : Local           Status           : Unlocked
+  Gateway-0      : 172.16.2.1      
+  Mask           : 255.255.254.0
+  VPN instance   : --
+ -----------------------------------------------------------------------------
+         Start           End     Total  Used  Idle(Expired)  Conflict  Disable
+ -----------------------------------------------------------------------------
+      172.16.2.1    172.16.3.254   509     1        453(0)         0       55
+ -----------------------------------------------------------------------------
+
+[swich1]display ip pool name 10 
+  Pool-name      : 10
+  Pool-No        : 0
+  Lease          : 5 Days 0 Hours 0 Minutes
+  Domain-name    : KPFU
+  DNS-server0    : 172.16.2.2      
+  NBNS-server0   : -               
+  Netbios-type   : -               
+  Position       : Local           Status           : Unlocked
+  Gateway-0      : 172.16.2.1      
+  Mask           : 255.255.254.0
+  VPN instance   : --
+ -----------------------------------------------------------------------------
+         Start           End     Total  Used  Idle(Expired)  Conflict  Disable
+ -----------------------------------------------------------------------------
+      172.16.2.1    172.16.3.254   509     2        452(0)         0       55
+ -----------------------------------------------------------------------------
+
+
+
+/////Резервирование ip адреса для конкретного макадреса
+
+
+
+	
+[swich1-ip-pool-10]static-bind ip-address 172.16.2.20 mac-address 5489-981E-75AC
+	
+Dec 10 2018 10:57:15-08:00 swich1 %%01PHY/1/PHY(l)[4]:    Ethernet0/0/3: change 
+status to up
+Dec 10 2018 10:57:15-08:00 swich1 %%01IFNET/4/IF_STATE(l)[5]:Interface Vlanif1 h
+as turned into UP state.	
+
+[swich1-ip-pool-10]quit 
+	
+[swich1]quit 
+<swich1>sa	
+<swich1>save 
+The current configuration will be written to the device.
+Are you sure to continue?[Y/N]
+Error: Please choose 'YES' or 'NO' first before pressing 'Enter'. [Y/N]:y
+Now saving the current configuration to the slot 0.
+Dec 10 2018 10:58:14-08:00 swich1 %%01CFM/4/SAVE(l)[6]:The user chose Y when dec
+iding whether to save the configuration to the device.
+Save the configuration successfully.
+
+<swich1>system-view 
+Enter system view, return user view with Ctrl+Z.
+
+[swich1]interface Ethernet0/0/3
+	
+[swich1-Ethernet0/0/3]port link-type access 
+
+[swich1-Ethernet0/0/3]port default vlan 10
+[swich1-Ethernet0/0/3]
+Dec 10 2018 10:59:25-08:00 swich1 %%01IFNET/4/IF_STATE(l)[7]:Interface Vlanif1 h
+as turned into DOWN state.
+	
+[swich1-Ethernet0/0/3]quit 
+
+////Это не обязательно, это нужно для того чтобы протоколы stp не вылетали в wireshark
+[swich1]stp disable 
+Warning: The global STP state will be changed. Continue? [Y/N]y
+Info: This operation may take a few seconds. Please wait for a moment...done.
+
+
+
+[swich1]
+[swich1]disp ip pool name 10 
+  Pool-name      : 10
+  Pool-No        : 0
+  Lease          : 5 Days 0 Hours 0 Minutes
+  Domain-name    : KPFU
+  DNS-server0    : 172.16.2.2      
+  NBNS-server0   : -               
+  Netbios-type   : -               
+  Position       : Local           Status           : Unlocked
+  Gateway-0      : 172.16.2.1      
+  Mask           : 255.255.254.0
+  VPN instance   : --
+ -----------------------------------------------------------------------------
+         Start           End     Total  Used  Idle(Expired)  Conflict  Disable
+ -----------------------------------------------------------------------------
+      172.16.2.1    172.16.3.254   509     3        451(0)         0       55
+ -----------------------------------------------------------------------------
+
+[swich1]

@@ -23,18 +23,7 @@ namespace VSZANAL.Controllers
             _context = context;
             _appEnvironment = appEnvironment;
         }
-
-        // GET: UserFiles
-        //[Authorize]
-        //public async Task<IActionResult> Index()
-        //{
-        //    var login = HttpContext.Response.HttpContext.User.Identity.Name;
-        //    User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-        //    ViewBag.login = user.Id;
-        //    var rUNContext = _context.Files.Include(u => u.User);
-        //    return View(await rUNContext.ToListAsync());
-
-        //}
+        
 
         [Authorize]
         public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
@@ -58,12 +47,6 @@ namespace VSZANAL.Controllers
                 case SortState.TimeDesc:
                     users = users.OrderByDescending(s => s.Time);
                     break;
-                /*case SortState.CompanyAsc:
-                    users = users.OrderBy(s => s.Company.Name);
-                    break;
-                case SortState.CompanyDesc:
-                    users = users.OrderByDescending(s => s.Company.Name);
-                    break;*/
                 default:
                     users = users.OrderBy(s => s.Name);
                     break;
@@ -96,8 +79,6 @@ namespace VSZANAL.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
-
-
 
         // POST: UserFiles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -285,5 +266,11 @@ namespace VSZANAL.Controllers
         }
 
         private void RemoveFile(string path) => System.IO.File.Delete(path);
+
+        public async Task<IActionResult> AllUsers()
+        {
+            IQueryable<User> users = _context.Users;
+            return View(await users.AsNoTracking().ToListAsync());
+        }
     }
 }
