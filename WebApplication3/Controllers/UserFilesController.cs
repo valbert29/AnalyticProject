@@ -26,11 +26,20 @@ namespace VSZANAL.Controllers
         
 
         [Authorize]
-        public async Task<IActionResult> Index(SortState sortOrder = SortState.NameAsc)
+        public async Task<IActionResult> Index(int? Id, SortState sortOrder = SortState.NameAsc)
         {
-            var login = HttpContext.Response.HttpContext.User.Identity.Name;
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-            ViewBag.login = user.Id;
+
+            if (Id == null)
+            {
+                var login = HttpContext.Response.HttpContext.User.Identity.Name;
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+                ViewBag.login = user.Id;
+            }
+            else
+            {
+                ViewBag.login = Id;
+            }
+            
             IQueryable<UserFile> users = _context.Files.Include(u => u.User);
 
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
@@ -185,7 +194,6 @@ namespace VSZANAL.Controllers
             {
                 try
                 {
-
                     var login = HttpContext.Response.HttpContext.User.Identity.Name;
                     User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
                     var time = DateTime.Now;
@@ -267,9 +275,27 @@ namespace VSZANAL.Controllers
 
         private void RemoveFile(string path) => System.IO.File.Delete(path);
 
-        public async Task<IActionResult> AllUsers()
+        public async Task<IActionResult> AllUsers(SortState sortOrder = SortState.NameAsc)
         {
             IQueryable<User> users = _context.Users;
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewData["TimeSort"] = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
+
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    users = users.OrderByDescending(s => s.Name);
+                    break;
+                case SortState.TimeAsc:
+                    users = users.OrderBy(s => s.Id);
+                    break;
+                case SortState.TimeDesc:
+                    users = users.OrderByDescending(s => s.Id);
+                    break;
+                default:
+                    users = users.OrderBy(s => s.Name);
+                    break;
+            }
             return View(await users.AsNoTracking().ToListAsync());
         }
     }

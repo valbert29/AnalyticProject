@@ -9,21 +9,21 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index">
-                    Имя
+                <a asp-action="AllUsers" asp-route-sortOrder="@ViewBag.NameSort">
+                    Id
                 </a>
             </th>
             <th>
-                <a asp-action="Index">
-                    Время
+                <a asp-action="AllUsers" asp-route-sortOrder="@ViewBag.TimeSort">
+                    Name
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                <p asp-action="AllUsers">
+                    Files
+                </p>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+
         </tr>
     </thead>
     <tbody>
@@ -37,6 +37,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.Id">Files</a>
                 </td>
                 @*<td>
                         @Html.DisplayFor(modelItem => item.Path)

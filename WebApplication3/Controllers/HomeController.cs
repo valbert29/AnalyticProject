@@ -18,8 +18,13 @@ namespace VSZANAL.Controllers
     public class HomeController : Controller
     {
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
+            var login = HttpContext.Response.HttpContext.User.Identity.Name;
+            ViewBag.login = login;
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
+            ViewBag.Avatar = user.Avatar;
             return View();
         }
 
@@ -49,7 +54,7 @@ namespace VSZANAL.Controllers
                     await uploadedFile.CopyToAsync(fileStream);
                 }
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-                UserFile file = new UserFile { Name = uploadedFile.FileName, Path = path, Time = DateTime.Now, UserId = user.Id, Previous=-1 };
+                UserFile file = new UserFile { Name = uploadedFile.FileName, Path = path, Time = DateTime.Now, UserId = user.Id, Previous = -1 };
                 _context.Files.Add(file);
             }
             _context.SaveChanges();
@@ -92,9 +97,12 @@ namespace VSZANAL.Controllers
 
 
         [Authorize]
-        public IActionResult ProfilePage()
+        public async Task<IActionResult> ProfilePage()
         {
             var login = HttpContext.Response.HttpContext.User.Identity.Name;
+            ViewBag.login = login;
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
+            ViewBag.Avatar = user.Avatar;
             ViewData["login"] = login;
             return View();
         }
