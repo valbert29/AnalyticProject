@@ -55,10 +55,8 @@ namespace WebApplication3.Models
     {
         NameAsc,    // по имени по возрастанию
         NameDesc,   // по имени по убыванию
-        TimeAsc, // по возрасту по возрастанию
-        TimeDesc,    // по возрасту по убыванию
-        CompanyAsc, // по компании по возрастанию
-        CompanyDesc // по компании по убыванию
+        TimeAsc, // по времени по возрастанию
+        TimeDesc,    // по времени по убыванию
     }
 
     public class Currency

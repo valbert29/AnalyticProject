@@ -1,0 +1,60 @@
+﻿@model IEnumerable<WebApplication3.Models.User>
+@{
+    ViewData["Title"] = "AllUsers";
+}
+
+<h2>AllUsers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="AllUsers" asp-route-sortOrder="@ViewBag.NameSort">
+                    Id
+                </a>
+            </th>
+            <th>
+                <a asp-action="AllUsers" asp-route-sortOrder="@ViewBag.TimeSort">
+                    Name
+                </a>
+            </th>
+            <th>
+                <p asp-action="AllUsers">
+                    Files
+                </p>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            //if (item.UserId == ViewBag.login)
+            //{
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.Id">Files</a>
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Path)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>*@
+            </tr>
+            //}
+
+        }
+    </tbody>
+</table>
