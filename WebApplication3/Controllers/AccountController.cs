@@ -58,9 +58,9 @@ namespace VSZANAL.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
-                    
+
                     // добавляем пользователя в бд
-                    db.Users.Add(new User { Login = model.Login, Password = model.Password, Name = model.Name, RoleId=1});
+                    db.Users.Add(new User { Login = model.Login, Password = model.Password, Name = model.Name, RoleId = 1, Avatar = "http://s1.iconbird.com/ico/2013/12/505/w450h4001385925286User.png" });
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Login); // аутентификация
@@ -76,7 +76,7 @@ namespace VSZANAL.Controllers
 
         private async Task Authenticate(string userName)
         {
-            User user = await db.Users.FirstOrDefaultAsync(u=>u.Login == userName);
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Login == userName);
             var data = user.Files;
             // создаем один claim
             var claims = new List<Claim>

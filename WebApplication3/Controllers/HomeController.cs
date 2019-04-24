@@ -20,12 +20,12 @@ namespace VSZANAL.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-
             var login = HttpContext.Response.HttpContext.User.Identity.Name;
             ViewBag.login = login;
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
             ViewBag.Avatar = user.Avatar;
             return View();
+
         }
 
         RUNContext _context;
