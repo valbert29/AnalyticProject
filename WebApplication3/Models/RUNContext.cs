@@ -21,6 +21,7 @@ namespace WebApplication3.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //    modelBuilder.Entity<User>().
             modelBuilder.Entity<Role>().HasData(
                 new Role[]
                 {

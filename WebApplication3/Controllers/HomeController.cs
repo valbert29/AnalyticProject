@@ -17,28 +17,29 @@ namespace VSZANAL.Controllers
 {
     public class HomeController : Controller
     {
+        RUNContext _context;
+        IHostingEnvironment _appEnvironment;
+
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var login = HttpContext.Response.HttpContext.User.Identity.Name;
-            ViewBag.login = login;
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
+            var login = HttpContext.User.Identity.Name;
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            ViewBag.login = user.Name;
             ViewBag.Avatar = user.Avatar;
             return View();
-
         }
-
-        RUNContext _context;
-        IHostingEnvironment _appEnvironment;
+        
         public HomeController(RUNContext context, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
         }
+
         [HttpPost]
         public async Task<IActionResult> AddFile(IFormFileCollection uploads)
         {
-            var login = HttpContext.Response.HttpContext.User.Identity.Name;
+            var login = HttpContext.User.Identity.Name;
             foreach (var uploadedFile in uploads)
             {
                 var valid = uploadedFile.FileName.Split(".");
@@ -61,49 +62,48 @@ namespace VSZANAL.Controllers
 
             return RedirectToAction("Index");
         }
-
-
+        
         [HttpPost]
         public async Task<IActionResult> AddAvatar(IFormFileCollection uploads)
         {
             foreach (var uploadedFile in uploads)
             {
-                // путь к папке Files
-                string path = "/Avatar/" + uploadedFile.FileName;
-                // сохраняем файл в папку Files в каталоге wwwroot
-                using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
+                var valid = uploadedFile.FileName.Split(".");//JPG, GIF или PNG.
+                var last = valid[valid.Length - 1].ToLower();
+                if (last == "jpg"|| last == "gif" || last == "png" || last == "jpeg")
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
-                }
-                var login = HttpContext.Response.HttpContext.User.Identity.Name;
-                ViewBag.login = login;
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
-                // var newUs = new User { Id = user.Id, Avatar = path, Files = user.Files, Login = user.Login, Name = user.Name, Password = user.Password, RoleId = user.RoleId };
-                //UserFile file = new UserFile { Name = uploadedFile.FileName, Path = path, Time = DateTime.Now, UserId = user.Id };
-                //_context.Users.Remove(user);
-                using (var db = _context)
-                {
-                    var result = db.Users.SingleOrDefault(b => b.Name == login);
-                    if (result != null)
+                    // путь к папке Files
+                    string path = "/Avatar/" + uploadedFile.FileName;
+                    // сохраняем файл в папку Files в каталоге wwwroot
+                    using (var fileStream = new FileStream(_appEnvironment.WebRootPath + path, FileMode.Create))
                     {
-                        result.Avatar = path;
-                        db.SaveChanges();
+                        await uploadedFile.CopyToAsync(fileStream);
+                    }
+
+                    using (var db = _context)
+                    {
+                        var login = HttpContext.User.Identity.Name;
+                        var result = db.Users.SingleOrDefault(b => b.Login == login);
+                        if (result != null)
+                        {
+                            result.Avatar = path;
+                            db.SaveChanges();
+                        }
                     }
                 }
+                
             }
-
             return RedirectToAction("ProfilePage");
         }
-
-
+        
         [Authorize]
         public async Task<IActionResult> ProfilePage()
         {
-            var login = HttpContext.Response.HttpContext.User.Identity.Name;
-            ViewBag.login = login;
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Name == login);
-            ViewBag.Avatar = user.Avatar;
-            ViewData["login"] = login;
+            var login = HttpContext.User.Identity.Name;
+
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            ViewBag.Avatar =  user.Avatar;
+            ViewData["login"] = user.Name;
             return View();
         }
 

@@ -104,8 +104,8 @@
             </div>
             <div class="row">
                 <h3>Выберите файл для загрузки</h3>
-                <form asp-action="AddAvatar" asp-controller="Home" method="post" enctype="multipart/form-data">
-                    <input type="file" name="uploads" /><br>
+                <form asp-action="AddAvatar" asp-controller="Home" method="post"  enctype="multipart/form-data">
+                    <input type="file" name="uploads" accept="image/*" /><br>
                     <input type="submit" value="Загрузить" />
                 </form>
             </div>
