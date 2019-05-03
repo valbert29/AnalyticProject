@@ -17,7 +17,7 @@ namespace AnaliticsFunctions
             return sum / list.Count; 
         }
 
-        public static Dictionary<double, int> GetRepeat(List<double> list)
+        internal static Dictionary<double, int> GetRepeat(List<double> list)
         {
             Dictionary<double, int> repeatPairs = new Dictionary<double, int>();
             repeatPairs = list.GroupBy(x => x)

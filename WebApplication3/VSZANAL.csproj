@@ -23,4 +23,8 @@
     <None Include="wwwroot\js\PieChart.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AnaliticsFunctions\AnaliticsFunctions.csproj" />
+  </ItemGroup>
+
 </Project>

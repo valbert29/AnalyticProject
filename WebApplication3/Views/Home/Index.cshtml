@@ -96,10 +96,12 @@
                 <div class="col-3-4">
                     <p>Выберите Фильтр, по которому хотите провести анализ</p>
                     <select class="slct">
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            <option>@i</option>
-                        }
+                        @{ string[] methods = AnaliticsFunctions.Parser.GetMethods();
+
+                            for (int i = 0; i < methods.Length-4; i++)
+                            {
+                                <option>@methods[i]</option>
+                            } }
                     </select>
                 </div>
                 <div class="col-1-4">

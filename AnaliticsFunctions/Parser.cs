@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace AnaliticsFunctions
 {
-    class Parser
+    public class Parser
     {
         public static Dictionary<string, double> Reader(string path)
         {
@@ -28,5 +29,13 @@ namespace AnaliticsFunctions
         public static List<double> GetValues(Dictionary<string, double> dictionary) =>
             dictionary.Select(x => x.Value).ToList();
 
+        public static string[] GetMethods()
+        {
+            return Array.ConvertAll<MethodInfo, String>(typeof(MathFunctions)
+                .GetMethods(), delegate (MethodInfo fo)
+                { return fo.Name; });
+            //Type myType = typeof(MathFunctions);
+            //return myType.GetMethods();
+        }
     }
 }
