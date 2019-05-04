@@ -95,14 +95,15 @@
             <div class="row">
                 <div class="col-3-4">
                     <p>Выберите Фильтр, по которому хотите провести анализ</p>
-                    <select class="slct">
+                    <select @*name="select" *@ id="Method">
+                        @ViewData["Method"] = $("#Method option:selected").text();
                         @{ string[] methods = AnaliticsFunctions.Parser.GetMethods();
 
-                            for (int i = 0; i < methods.Length-4; i++)
+                            for (int i = 0; i < methods.Length - 4; i++)
                             {
                                 <option>@methods[i]</option>
                             } }
-                    </select>
+                    </select> 
                 </div>
                 <div class="col-1-4">
                     <a href="/Home/ProfilePage/"><img class="image" src="@ViewBag.Avatar" alt="profPic" /></a>
@@ -113,35 +114,52 @@
             <div class="row">
                 <div class="col-3-5">
                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                    <script>
-                        google.charts.load('current', { 'packages': ['corechart'] });
-                                                google.charts.setOnLoadCallback(drawChart);
-                                                function drawChart() {
-                                                var data=google.visualization.arrayToDataTable([
-                                                ['Mon', 20, 28, 38, 45],
-                                                ['Tue', 31, 38, 55, 66],
-                                                ['Wed', 50, 55, 77, 80],
-                                                ['Thu', 77, 77, 66, 50],
-                                                ['Fri', 68, 66, 22, 15]
-                                        // Treat first row as data as well.
-                                        ], true);
+                    @{ List<string> names = new List<string>();
+                        List<double> values = new List<double>();
+                        try {
+                            names = AnaliticsFunctions
+                                .Parser.GetNames(AnaliticsFunctions
+                                .Parser.Reader(AnaliticsFunctions
+                                .Parser.FindLastFile(@"~\wwwroot\Files")));
+                            values = AnaliticsFunctions
+                                .Parser.GetValues(AnaliticsFunctions
+                                .Parser.Reader(AnaliticsFunctions
+                                .Parser.FindLastFile(@"~\wwwroot\Files")));
+                        }
+                        catch { names.Add("неверный формат данных"); }
+                        string[] arrNames = names.ToArray();
+                        double[] arrValues = values.ToArray();
 
-                                        var options = {
-                                        legend: 'none'
-                                        };
+                    }
+                        @*<script>
+                        google.charts.load("current", { packages: ["corechart"] });
+                        google.charts.setOnLoadCallback(drawChart);
+                        function drawChart() {
+                            var data = google.visualization.arrayToDataTable([
+                                ['Type', 'Value'],
+                                @for(int i = 0; i < arrNames.Length; i++)
+                                    arrNames[i], arrValues[i];
+                            ]);
 
-                                        var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
+                            var options = {
+                                title: 'Your data',
+                                legend: { position: 'none' },
+                            };
 
-                                        chart.draw(data, options);
-                                        }
-                    @*<script scr="PieChart.js"></script>*@
-                    </script>
-                    
+                            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+                            chart.draw(data, options);
+                        }
+                    </script>*@
+                    @*<script scr="../"></script>*@
+
                     <div id="chart_div" style="width: 550px; height: 300px;"></div>
 
                 </div>
                 <div class="col-2-5">
-                    <img src="http://berg.com.ua/wp-content/forex-currency-trading-pairs.png" alt="Валютные пары" />
+                    <textarea> Your Method is @ViewData["Method"] 
+
+                    </textarea>
+                    @*<img src="http://berg.com.ua/wp-content/forex-currency-trading-pairs.png" alt="Валютные пары" />*@
                 </div>
             </div>
             <div class="row">

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.FileProviders;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AnaliticsFunctions
 {
@@ -17,7 +19,8 @@ namespace AnaliticsFunctions
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
-                values.Add(line.Replace(@"(\w*): ", ""), double.Parse(line.Replace(@":(\w*)", "")));
+                string[] arr = line.Split(": ");
+                values.Add(arr[0], double.Parse(arr[1]));
             }
             sr.Close();
             return values;            
@@ -36,6 +39,18 @@ namespace AnaliticsFunctions
                 { return fo.Name; });
             //Type myType = typeof(MathFunctions);
             //return myType.GetMethods();
+        }
+
+
+        public static string FindLastFile(string path)
+        {
+            path = path.Replace(@"~\", "");
+            var directory = new DirectoryInfo(path);
+            var myFile = directory
+                .GetFiles()
+                .OrderByDescending(f => f.LastWriteTime)
+                .First();
+            return myFile.FullName;
         }
     }
 }
