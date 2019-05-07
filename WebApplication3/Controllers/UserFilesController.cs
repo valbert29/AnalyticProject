@@ -64,6 +64,7 @@ namespace VSZANAL.Controllers
         }
 
         // GET: UserFiles/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -82,6 +83,7 @@ namespace VSZANAL.Controllers
             return View(userFile);
         }
 
+        [Authorize]
         // GET: UserFiles/Create
         public IActionResult Create()
         {
@@ -94,6 +96,7 @@ namespace VSZANAL.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Name,Path,Time,UserId")] UserFile userFile, string text)
         {
             if (ModelState.IsValid)
@@ -136,6 +139,7 @@ namespace VSZANAL.Controllers
         }
 
         // GET: UserFiles/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -182,6 +186,7 @@ namespace VSZANAL.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Path,Time,UserId")] UserFile userFile,
             string text, string oldName)
         {
@@ -222,6 +227,7 @@ namespace VSZANAL.Controllers
         }
 
         // GET: UserFiles/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -253,6 +259,7 @@ namespace VSZANAL.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public FileResult Download(string filename)
         {
             var path = _appEnvironment.WebRootPath + filename;
@@ -275,6 +282,7 @@ namespace VSZANAL.Controllers
 
         private void RemoveFile(string path) => System.IO.File.Delete(path);
 
+        [Authorize]
         public async Task<IActionResult> AllUsers(SortState sortOrder = SortState.NameAsc)
         {
             IQueryable<User> users = _context.Users;

@@ -48,7 +48,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.User.Id)
                     </td>
-                    <td>
+                    <td>@*условия отображения*@
                         <input type="text" hidden="hidden" id="testinput" name="testinput" value="@item.Path" />
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
