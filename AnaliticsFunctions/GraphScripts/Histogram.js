@@ -7,7 +7,7 @@ function drawChart() {
         ['Albertosaurus (Alberta lizard)', 9.1],
         ['Allosaurus (other lizard)', 12.2],
         ['Apatosaurus (deceptive lizard)', 22.9]       
-       ]);
+    ]);
 
     var options = {
         title: 'Lengths of dinosaurs, in meters',
