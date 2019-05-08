@@ -26,7 +26,7 @@ namespace WebApplication3.Models
         public string Password { get; set; }
         public string Avatar { get; set; }
         [NotMapped]
-        public List<string> Subscription { get; set; }
+        public List<Subscription> Subscriptions { get; set; }
 
 
         public virtual List<UserFile> Files { get; set; }
@@ -69,8 +69,9 @@ namespace WebApplication3.Models
 
     public class Subscription
     {
-        public string Name { get; set; }
         public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime Period { get; set; }
     }
 
 }
