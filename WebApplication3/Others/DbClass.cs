@@ -61,6 +61,8 @@ namespace VSZANAL.Others
         {
             Console.WriteLine($"Class {_decorated.GetType().FullName}, Method {methodInfo.Name} is executing");
         }
+
+
     }
 
 }
