@@ -35,27 +35,31 @@
         {
             if (item.UserId == ViewBag.login)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Time)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Path)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Id)
-                    </td>
-                    <td>@*условия отображения*@
-                        <input type="text" hidden="hidden" id="testinput" name="testinput" value="@item.Path" />
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a href="\UserFiles\Download?filename=@item.Path">Download</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Path)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Id)
+            </td>
+            <th><a href="\UserFiles\Download?filename=@item.Path">Download</a></th>
+            @if (ViewBag.Owner == true)
+            {
+                <td>
+                    <input type="text" hidden="hidden" id="testinput" name="testinput" value="@item.Path" />
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+
+        </tr>
             }
 
         }

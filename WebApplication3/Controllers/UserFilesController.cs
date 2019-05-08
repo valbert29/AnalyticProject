@@ -33,10 +33,12 @@ namespace VSZANAL.Controllers
             {
                 User user = HomeController.GetUser(db, HttpContext);
                 ViewBag.login = user.Id;
+                ViewBag.Owner = true;
             }
             else
             {
                 ViewBag.login = Id;
+                ViewBag.Owner = false;
             }
             
             IQueryable<UserFile> users = db.Files.Include(u => u.User);

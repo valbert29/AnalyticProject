@@ -71,15 +71,5 @@ namespace VSZANAL.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Price
-        {
-            get { return Price; }
-            set
-            {
-                if (value > 0)
-                    Price = value;
-            }
-        }
     }
-
 }

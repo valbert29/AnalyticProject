@@ -103,11 +103,18 @@
                 </div>
             </div>
             <div class="row">
-                <h3>Выберите файл для загрузки</h3>
-                <form asp-action="AddAvatar" asp-controller="Home" method="post"  enctype="multipart/form-data">
-                    <input type="file" name="uploads" accept="image/*" /><br>
-                    <input type="submit" value="Загрузить" />
-                </form>
+                <div class="col-3-4">
+                    
+                </div>
+                <div class="col-1-4">
+                    <h3>Сменить аватар</h3>
+                    <form asp-action="AddAvatar" asp-controller="Home" method="post" enctype="multipart/form-data">
+                        <input type="file" name="uploads" accept="image/*" /><br>
+                        <input type="submit" value="Загрузить" />
+                    </form>
+                </div>
+                
+                
             </div>
             <div class="row">
             </div>
