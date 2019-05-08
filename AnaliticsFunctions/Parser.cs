@@ -26,15 +26,14 @@ namespace AnaliticsFunctions
             return values;
         }
 
-        public static object[,] GetArray(Dictionary<string, double> dict)
+        public static string[] GetArray(Dictionary<string, double> dict)
         {
             string[] arrNames = GetNames(dict).ToArray();
             double[] arrValues = GetValues(dict).ToArray();
-            object[,] arr = new string[dict.Count(), 2];
+            string[] arr = new string[dict.Count()];
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[dict.
-                    , ]
+                arr[i] = arrNames[i] +", "+ arrValues[i];
             }
             return arr;
         }

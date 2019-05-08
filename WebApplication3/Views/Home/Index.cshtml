@@ -129,6 +129,7 @@
                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                     @{ List<string> names = new List<string>();
                         List<double> values = new List<double>();
+                        string[] arr;
                         try
                         {
                             names = AnaliticsFunctions
@@ -139,6 +140,9 @@
                                 .Parser.GetValues(AnaliticsFunctions
                                 .Parser.Reader(AnaliticsFunctions
                                 .Parser.FindLastFile(@"~\wwwroot\Files")));
+                            arr = AnaliticsFunctions.Parser.GetArray(
+                                   AnaliticsFunctions.Parser.Reader(AnaliticsFunctions
+                               .Parser.FindLastFile(@"~\wwwroot\Files")));
                         }
                         catch { names.Add("неверный формат данных"); }
                         string[] arrNames = names.ToArray();
@@ -148,14 +152,15 @@
                     <script>
                         google.charts.load("current", { packages: ["corechart"] });
                         google.charts.setOnLoadCallback(drawChart);
-                        function drawChart() {
-                            var data = google.visualization.arrayToDataTable([
-                                ['Dinosaur', 'Length'],
-                                ['Acrocanthosaurus (top-spined lizard)', 12.2],
-                                ['Albertosaurus (Alberta lizard)', 9.1],
-                                ['Allosaurus (other lizard)', 12.2],
-                                ['Apatosaurus (deceptive lizard)', 22.9]
-                            ]);
+                        function drawChart(arr);
+                                                            
+
+                                //[['Dinosaur', 'Length'],
+                                //['Acrocanthosaurus (top-spined lizard)', 12.2],
+                                //['Albertosaurus (Alberta lizard)', 9.1],
+                                //['Allosaurus (other lizard)', 12.2],
+                                //['Apatosaurus (deceptive lizard)', 22.9]]
+                            
 
                             var options = {
                                 title: 'Lengths of dinosaurs, in meters',
