@@ -82,9 +82,10 @@
             border-radius: 10px;
             padding: 10px;
         }
-        .image{
-            height:100%;
-            width:100%;
+
+        .image {
+            height: 100%;
+            width: 100%;
         }
     </style>
 
@@ -95,15 +96,27 @@
             <div class="row">
                 <div class="col-3-4">
                     <p>Выберите Фильтр, по которому хотите провести анализ</p>
-                    <select @*name="select" *@ id="Method">
-                        @ViewData["Method"] = $("#Method option:selected").text();
-                        @{ string[] methods = AnaliticsFunctions.Parser.GetMethods();
+                    <form action="@*контр/метод(string select)*@" method="post">
+                        <table>
+                            <tr>
+                                <th>
+                                    <select name="select" id="Method">
+                                        @ViewData["Method"] = $("#Method option:selected").text();aszaa
+                                        @{ string[] methods = AnaliticsFunctions.Parser.GetMethods();
 
-                            for (int i = 0; i < methods.Length - 4; i++)
-                            {
-                                <option>@methods[i]</option>
-                            } }
-                    </select> 
+                                            for (int i = 0; i < methods.Length - 4; i++)
+                                            {
+                                                <option value="@methods[i]">@methods[i]</option>
+                                            }
+                                        }
+
+                                    </select>
+                                </th>
+                                <th><input type="submit" value="Apply" /></th>
+                            </tr>
+                        </table>
+                    </form>
+
                 </div>
                 <div class="col-1-4">
                     <a href="/Home/ProfilePage/"><img class="image" src="@ViewBag.Avatar" alt="profPic" /></a>
@@ -116,7 +129,8 @@
                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                     @{ List<string> names = new List<string>();
                         List<double> values = new List<double>();
-                        try {
+                        try
+                        {
                             names = AnaliticsFunctions
                                 .Parser.GetNames(AnaliticsFunctions
                                 .Parser.Reader(AnaliticsFunctions
@@ -131,25 +145,27 @@
                         double[] arrValues = values.ToArray();
 
                     }
-                        @*<script>
+                    <script>
                         google.charts.load("current", { packages: ["corechart"] });
                         google.charts.setOnLoadCallback(drawChart);
                         function drawChart() {
                             var data = google.visualization.arrayToDataTable([
-                                ['Type', 'Value'],
-                                @for(int i = 0; i < arrNames.Length; i++)
-                                    arrNames[i], arrValues[i];
+                                ['Dinosaur', 'Length'],
+                                ['Acrocanthosaurus (top-spined lizard)', 12.2],
+                                ['Albertosaurus (Alberta lizard)', 9.1],
+                                ['Allosaurus (other lizard)', 12.2],
+                                ['Apatosaurus (deceptive lizard)', 22.9]
                             ]);
 
                             var options = {
-                                title: 'Your data',
+                                title: 'Lengths of dinosaurs, in meters',
                                 legend: { position: 'none' },
                             };
 
                             var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
                             chart.draw(data, options);
                         }
-                    </script>*@
+                    </script>
                     @*<script scr="../"></script>*@
 
                     <div id="chart_div" style="width: 550px; height: 300px;"></div>

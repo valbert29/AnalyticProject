@@ -37,6 +37,7 @@ namespace VSZANAL.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddFile(IFormFileCollection uploads)
         {
             var login = HttpContext.User.Identity.Name;
@@ -64,6 +65,7 @@ namespace VSZANAL.Controllers
         }
         
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddAvatar(IFormFileCollection uploads)
         {
             foreach (var uploadedFile in uploads)
@@ -107,6 +109,7 @@ namespace VSZANAL.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -114,6 +117,7 @@ namespace VSZANAL.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -121,6 +125,7 @@ namespace VSZANAL.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
