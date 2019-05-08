@@ -23,7 +23,20 @@ namespace AnaliticsFunctions
                 values.Add(arr[0], double.Parse(arr[1]));
             }
             sr.Close();
-            return values;            
+            return values;
+        }
+
+        public static object[,] GetArray(Dictionary<string, double> dict)
+        {
+            string[] arrNames = GetNames(dict).ToArray();
+            double[] arrValues = GetValues(dict).ToArray();
+            object[,] arr = new string[dict.Count(), 2];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[dict.
+                    , ]
+            }
+            return arr;
         }
 
         public static List<string> GetNames(Dictionary<string, double> dictionary) =>
@@ -40,7 +53,6 @@ namespace AnaliticsFunctions
             //Type myType = typeof(MathFunctions);
             //return myType.GetMethods();
         }
-
 
         public static string FindLastFile(string path)
         {
