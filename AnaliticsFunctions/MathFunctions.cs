@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace AnaliticsFunctions
 {
-    public class MathFunctions
+    public class MathFunctions:IMathFunc
     {
-        public static double GetAverageValue(List<double> list)
+        public double GetAverageValue(List<double> list)
         {
             double sum = 0;
             foreach (var v in list)
@@ -25,7 +25,7 @@ namespace AnaliticsFunctions
               .ToDictionary(x => x.Key, y => y.Count());
             return repeatPairs;
         }
-        public static double GetExpectedValue(List<double> list)
+        public double GetExpectedValue(List<double> list)
         {
             double sum = 0;
             Dictionary<double, int> repeat = GetRepeat(list);
@@ -37,13 +37,13 @@ namespace AnaliticsFunctions
             return sum;
         }
 
-        public static double GetDispersion(List<double> list)
+        public double GetDispersion(List<double> list)
         {
             double MathExecValue = GetExpectedValue(list.Select(x => x * x).ToList());
             return MathExecValue - Math.Pow((GetExpectedValue(list)), 2);
         }
-
-        public static double GetSquareDeviation(List<double> list)
+   
+        public double GetSquareDeviation(List<double> list)
         {
             return Math.Sqrt(GetDispersion(list));
         }
