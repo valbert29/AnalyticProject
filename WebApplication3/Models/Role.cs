@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApplication3.Models
+namespace VSZANAL.Models
 {
     public class Role
     {
@@ -71,7 +71,15 @@ namespace WebApplication3.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime Period { get; set; }
+        public int Price
+        {
+            get { return Price; }
+            set
+            {
+                if (value > 0)
+                    Price = value;
+            }
+        }
     }
 
 }

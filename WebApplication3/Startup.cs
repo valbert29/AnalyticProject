@@ -11,10 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication3.Models;
 using VSZANAL.Models;
 
-namespace WebApplication3
+namespace VSZANAL
 {
     public class Startup
     {

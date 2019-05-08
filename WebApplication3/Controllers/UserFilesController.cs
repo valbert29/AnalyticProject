@@ -9,18 +9,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApplication3.Models;
+using VSZANAL.Models;
 
 namespace VSZANAL.Controllers
 {
     public class UserFilesController : Controller
     {
-        private readonly RUNContext _context;
+        private readonly RUNContext db;
         private readonly IHostingEnvironment _appEnvironment;
 
         public UserFilesController(RUNContext context, IHostingEnvironment appEnvironment)
         {
-            _context = context;
+            db = context;
             _appEnvironment = appEnvironment;
         }
         
@@ -31,8 +31,7 @@ namespace VSZANAL.Controllers
 
             if (Id == null)
             {
-                var login = HttpContext.Response.HttpContext.User.Identity.Name;
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+                User user = HomeController.GetUser(db, HttpContext);
                 ViewBag.login = user.Id;
             }
             else
@@ -40,7 +39,7 @@ namespace VSZANAL.Controllers
                 ViewBag.login = Id;
             }
             
-            IQueryable<UserFile> users = _context.Files.Include(u => u.User);
+            IQueryable<UserFile> users = db.Files.Include(u => u.User);
 
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["TimeSort"] = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
@@ -72,7 +71,7 @@ namespace VSZANAL.Controllers
                 return NotFound();
             }
 
-            var userFile = await _context.Files
+            var userFile = await db.Files
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userFile == null)
@@ -87,7 +86,7 @@ namespace VSZANAL.Controllers
         // GET: UserFiles/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["UserId"] = new SelectList(db.Users, "Id", "Id");
             return View();
         }
 
@@ -101,8 +100,7 @@ namespace VSZANAL.Controllers
         {
             if (ModelState.IsValid)
             {
-                var login = HttpContext.Response.HttpContext.User.Identity.Name;
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+                User user = HomeController.GetUser(db, HttpContext);
                 var time = DateTime.Now;
                 var filename = userFile.Name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
                 if (userFile.Previous == 0)
@@ -112,12 +110,12 @@ namespace VSZANAL.Controllers
                     userFile.UserId = user.Id;
                     userFile.Previous = -1;
                 }
-                _context.Add(userFile);//в бд
+                db.Add(userFile);//в бд
                 SaveToFile(text, filename);//в папку
-                await _context.SaveChangesAsync();
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userFile.UserId);
+            ViewData["UserId"] = new SelectList(db.Users, "Id", "Id", userFile.UserId);
             return View(userFile);
         }
 
@@ -147,14 +145,14 @@ namespace VSZANAL.Controllers
                 return NotFound();
             }
 
-            var userFile = await _context.Files.FindAsync(id);
-            var realname = userFile.Path.Remove(0, 7);
+            var userFile = await db.Files.FindAsync(id);
+            var realname = userFile.Path.Remove(0, 7).ToString();
             GetFile(realname);
             if (userFile == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userFile.UserId);
+            ViewData["UserId"] = new SelectList(db.Users, "Id", "Id", userFile.UserId);
             return View(userFile);
         }
 
@@ -199,15 +197,14 @@ namespace VSZANAL.Controllers
             {
                 try
                 {
-                    var login = HttpContext.Response.HttpContext.User.Identity.Name;
-                    User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+                    User user = HomeController.GetUser(db, HttpContext);
                     var time = DateTime.Now;
                     var filename = userFile.Name + "_" + time.ToShortDateString().Replace('.', '-') + '-' + time.ToLongTimeString().Replace(':', '-') + ".txt";
                     var newUs = new UserFile { Name = userFile.Name, Path = "/Files/" + filename, Time = time, UserId = user.Id, Previous = userFile.Id };
 
                     //_context.Update(userFile);
                     await Create(newUs, text);
-                    await _context.SaveChangesAsync();
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -222,7 +219,7 @@ namespace VSZANAL.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userFile.UserId);
+            ViewData["UserId"] = new SelectList(db.Users, "Id", "Id", userFile.UserId);
             return View(userFile);
         }
 
@@ -235,7 +232,7 @@ namespace VSZANAL.Controllers
                 return NotFound();
             }
 
-            var userFile = await _context.Files
+            var userFile = await db.Files
                 .Include(u => u.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (userFile == null)
@@ -251,11 +248,11 @@ namespace VSZANAL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userFile = await _context.Files.FindAsync(id);
+            var userFile = await db.Files.FindAsync(id);
             var path = _appEnvironment.WebRootPath + userFile.Path;
             RemoveFile(path);
-            _context.Files.Remove(userFile);
-            await _context.SaveChangesAsync();
+            db.Files.Remove(userFile);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -277,7 +274,7 @@ namespace VSZANAL.Controllers
 
         private bool UserFileExists(int id)
         {
-            return _context.Files.Any(e => e.Id == id);
+            return db.Files.Any(e => e.Id == id);
         }
 
         private void RemoveFile(string path) => System.IO.File.Delete(path);
@@ -285,7 +282,7 @@ namespace VSZANAL.Controllers
         [Authorize]
         public async Task<IActionResult> AllUsers(SortState sortOrder = SortState.NameAsc)
         {
-            IQueryable<User> users = _context.Users;
+            IQueryable<User> users = db.Users;
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["TimeSort"] = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
 

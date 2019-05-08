@@ -1,26 +1,32 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using VSZANAL.Controllers;
+using VSZANAL.Models;
 
-namespace VSZANAL.Others
+namespace VSZANAL
 {
     public class LoggingDecorator<T> : DispatchProxy
     {
+        readonly RUNContext db;
+        readonly HttpContext HtContext;
+        LoggingDecorator(RUNContext context, HttpContext httpContext)
+        {
+            db = context;
+            HtContext = httpContext;
+        }
         private T _decorated;
 
         protected override object Invoke(MethodInfo targetMethod, object[] args)
         {
             try
             {
-                LogBefore(targetMethod, args);
-
-                //var a=c[0]; 
-
                 var result = targetMethod.Invoke(_decorated, args);
 
-                LogAfter(targetMethod, args, result);
+                //LogAfter(targetMethod, args, result);
                 return result;
             }
             catch (Exception ex) when (ex is TargetInvocationException)
@@ -60,6 +66,18 @@ namespace VSZANAL.Others
         private void LogBefore(MethodInfo methodInfo, object[] args)
         {
             Console.WriteLine($"Class {_decorated.GetType().FullName}, Method {methodInfo.Name} is executing");
+        }
+
+        /*private bool Checker()
+        {//тут надо посмотреть, есть ли у пользователя подписка с именем == имени метода, который тут вызывается.
+            var user = HomeController.GetUser(db, HtContext);
+            var sub = GetSubscription();
+            user.Subscriptions.Contains();
+        }*/
+
+        private Subscription GetSubscription(string subName)
+        {
+            return db.Subscriptions.FirstOrDefault(u => u.Name == subName);
         }
 
 

@@ -9,9 +9,12 @@ namespace VSZANAL.Controllers
 {
     public class FuncMethodController : Controller
     {
-        public IActionResult Index()
+        FuncMethodController()
         {
-
+            var service = LoggingDecorator<IMathFunc>.Create(new MathFunctions());
+        }
+        public IActionResult Index(string select)
+        {
             return View();
         }
     }

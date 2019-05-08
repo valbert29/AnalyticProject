@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication3.Models;
-using WebApplication3.ViewModels;
+using VSZANAL.ViewModels;
+using VSZANAL.Models;
 
 namespace VSZANAL.Controllers
 {
@@ -81,7 +81,6 @@ namespace VSZANAL.Controllers
             // создаем один claim
             var claims = new List<Claim>
             {
-
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
             };
             // создаем объект ClaimsIdentity
@@ -95,6 +94,5 @@ namespace VSZANAL.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
-
     }
 }

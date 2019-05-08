@@ -6,33 +6,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication3.Models;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using VSZANAL.Models;
 
 namespace VSZANAL.Controllers
 {
     public class HomeController : Controller
     {
-        RUNContext _context;
+        RUNContext db;
         IHostingEnvironment _appEnvironment;
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var login = HttpContext.User.Identity.Name;
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
-            ViewBag.login = user.Name;
-            ViewBag.Avatar = user.Avatar;
+            User user = GetUser(db, HttpContext);
+            if (user != null)
+            {
+                ViewBag.login = user.Name;
+                ViewBag.Avatar = user.Avatar;
+            }            
             return View();
         }
         
         public HomeController(RUNContext context, IHostingEnvironment appEnvironment)
         {
-            _context = context;
+            db = context;
             _appEnvironment = appEnvironment;
         }
 
@@ -55,11 +57,11 @@ namespace VSZANAL.Controllers
                 {
                     await uploadedFile.CopyToAsync(fileStream);
                 }
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+                User user = GetUser(db, HttpContext);
                 UserFile file = new UserFile { Name = uploadedFile.FileName, Path = path, Time = DateTime.Now, UserId = user.Id, Previous = -1 };
-                _context.Files.Add(file);
+                db.Files.Add(file);
             }
-            _context.SaveChanges();
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -82,10 +84,9 @@ namespace VSZANAL.Controllers
                         await uploadedFile.CopyToAsync(fileStream);
                     }
 
-                    using (var db = _context)
+                    using (var db = this.db)
                     {
-                        var login = HttpContext.User.Identity.Name;
-                        var result = db.Users.SingleOrDefault(b => b.Login == login);
+                        var result = GetUser(db, HttpContext);
                         if (result != null)
                         {
                             result.Avatar = path;
@@ -99,11 +100,9 @@ namespace VSZANAL.Controllers
         }
         
         [Authorize]
-        public async Task<IActionResult> ProfilePage()
+        public IActionResult ProfilePage()
         {
-            var login = HttpContext.User.Identity.Name;
-
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            User user = GetUser(db, HttpContext);
             ViewBag.Avatar =  user.Avatar;
             ViewData["login"] = user.Name;
             return View();
@@ -135,6 +134,12 @@ namespace VSZANAL.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public static User GetUser(RUNContext db, HttpContext httpContext )
+        {
+            var login = httpContext.User.Identity.Name;
+            return db.Users.FirstOrDefault(u => u.Login == login);
         }
     }
 }
