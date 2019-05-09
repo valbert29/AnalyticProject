@@ -4,91 +4,7 @@
 <head>
     <title>Main Page</title>
     <meta charset="utf-8">
-    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">*@
-    <style>
-        .container {
-            width: 100%;
-            max-width: 1024px;
-            padding: 15px;
-            margin: 0 auto;
-        }
-
-            .container:after, .row:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
-
-        .logo {
-            float: left;
-        }
-
-        .row {
-            margin-bottom: 15px;
-            margin-top: 15px;
-        }
-
-        .col-1-2 {
-            width: 50%;
-            float: left;
-            border: 1px solid black;
-        }
-
-        .col-3-4 {
-            width: 75%;
-            float: left;
-            border: 1px solid black;
-        }
-
-        .col-1-4 {
-            width: 25%;
-            float: left;
-            border: 1px solid black
-        }
-
-        .col-2-5 {
-            width: 40%;
-            float: left;
-            border: 1px solid black;
-        }
-
-        .col-3-5 {
-            width: 60%;
-            float: left;
-            border: 1px solid black;
-        }
-
-            .col-3-5 img {
-                width: 200px;
-                height: 300px;
-            }
-
-        .btn {
-            border: 1px solid grey;
-            background-color: whitesmoke;
-            float: right;
-            margin-right: 45%;
-        }
-
-        .slct {
-            border: 1px solid greenyellow;
-            background-color: whitesmoke;
-            float: left;
-            width: 20vw;
-        }
-
-        .down {
-            border: 1px solid grey;
-            border-radius: 10px;
-            padding: 10px;
-        }
-
-        .image {
-            height: 100%;
-            width: 100%;
-        }
-    </style>
-
+    <link rel="stylesheet" href="~/css/HtmlStyles.css" />
 </head>
 <body>
     <div class="main">
@@ -178,9 +94,7 @@
                 </div>
                 <div class="col-2-5">
                     <textarea> Your Method is @ViewData["Method"] 
-
                     </textarea>
-                    @*<img src="http://berg.com.ua/wp-content/forex-currency-trading-pairs.png" alt="Валютные пары" />*@
                 </div>
             </div>
             <div class="row">
