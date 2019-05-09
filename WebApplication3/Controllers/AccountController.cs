@@ -58,9 +58,10 @@ namespace VSZANAL.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Login == model.Login);
                 if (user == null)
                 {
-
                     // добавляем пользователя в бд
-                    db.Users.Add(new User { Login = model.Login, Password = model.Password, Name = model.Name, RoleId = 1, Avatar = "http://s1.iconbird.com/ico/2013/12/505/w450h4001385925286User.png" });
+                    Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    if (userRole != null)
+                    db.Users.Add(new User { Login = model.Login, Password = model.Password, Role = userRole, Name = model.Name,  Avatar = "http://s1.iconbird.com/ico/2013/12/505/w450h4001385925286User.png" });
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Login); // аутентификация
@@ -81,7 +82,8 @@ namespace VSZANAL.Controllers
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

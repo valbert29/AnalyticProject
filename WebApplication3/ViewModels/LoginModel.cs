@@ -14,7 +14,5 @@ namespace VSZANAL.ViewModels
         [Required(ErrorMessage = "Не указан Пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-
     }
 }

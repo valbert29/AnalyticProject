@@ -35,11 +35,10 @@ namespace VSZANAL
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
             services.AddDistributedMemoryCache();
             services.AddSession();
-
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -65,26 +64,6 @@ namespace VSZANAL
             app.UseAuthentication();
 
             app.UseSession();
-            //string login = HttpContext.User.Identity.Name;
-
-            //var cntx = app.ApplicationServices.GetService<RUNContext>();
-            //app.Run(async (context) =>
-            //{
-
-            //    User user = await cntx.Users.FirstOrDefaultAsync(u => u.Login == login);
-
-            //    if (context.Session.Keys.Contains("person"))
-            //    {
-            //        User person = context.Session.Get<User>("person");
-            //        await context.Response.WriteAsync($"Hello {person.Role.Name}");
-            //    }
-            //    else
-            //    {
-            //        User person = user;
-            //        context.Session.Set<User>("person", person);
-            //        await context.Response.WriteAsync($"Hello {person.Role.Name}");
-            //    }
-            //});
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
