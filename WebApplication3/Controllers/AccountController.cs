@@ -74,9 +74,9 @@ namespace VSZANAL.Controllers
             return View(model);
         }
 
-
-        private async Task Authenticate(string userName)
+        public static async Task AdminAunth(string userName, HttpContext httpContext, RUNContext runContext)
         {
+            var db = runContext;
             User user = await db.Users.FirstOrDefaultAsync(u => u.Login == userName);
             var data = user.Files;
             // создаем один claim
@@ -84,6 +84,23 @@ namespace VSZANAL.Controllers
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        private async Task Authenticate(string userName)
+        {
+            User user = await db.Users.FirstOrDefaultAsync(u => u.Login == userName);
+            var role = db.Roles.FirstOrDefault(x => x.Id == user.RoleId);
+            var s = user;
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, role.Name)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using VSZANAL.Controllers;
 using VSZANAL.Models;
 
 namespace VSZANAL
@@ -40,20 +44,22 @@ namespace VSZANAL
             Role userRole = new Role { Id = 2, Name = userRoleName };
             User adminUser = new User { Id = 1, Login = adminLogin, Name = adminLogin,
                 Avatar = adminAvatar, Password = adminLogin, RoleId = adminRole.Id };
-            var sub1 = new Subscription { Id = 1, Name = "GetAverageValue", Period = adminPeriod };
-            var sub2 = new Subscription { Id = 2, Name = "GetExpectedValue", Period = adminPeriod };
-            var sub3 = new Subscription { Id = 3, Name = "GetDispersion", Period = adminPeriod };
-            var sub4 = new Subscription { Id = 4, Name = "GetSquareDeviation", Period = adminPeriod };
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Subscriptions)
+                .WithOne(x => x.User);
+            var sub1 = new Subscription { Id = 1, Name = "GetAverageValue", Period = adminPeriod, UserId=adminUser.Id };
+            var sub2 = new Subscription { Id = 2, Name = "GetExpectedValue", Period = adminPeriod, UserId = adminUser.Id };
+            var sub3 = new Subscription { Id = 3, Name = "GetDispersion", Period = adminPeriod, UserId = adminUser.Id };
+            var sub4 = new Subscription { Id = 4, Name = "GetSquareDeviation", Period = adminPeriod, UserId = adminUser.Id };
             var adminSubs = new List<Subscription> { new Subscription { Id = 1, Name = "GetAverageValue", Period = adminPeriod } };
-            adminUser.Subscriptions = new List<Subscription> { new Subscription { Id = 1, Name = "GetAverageValue", Period = adminPeriod, } };
-            modelBuilder.Entity<User>().OwnsOne(e => e.Subscriptions).HasData(
-                new
-                {
-                    UserId = 1
-                });
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Subscriptions)
+                .WithOne(x => x.User)
+                .IsRequired();
+            //adminUser.Subscriptions = new List<Subscription> { new Subscription { Id = 1, Name = "GetAverageValue", Period = adminPeriod, } };
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
-            modelBuilder.Entity<Subscription>().HasData( new Subscription[] { sub1, sub2, sub3, sub4 });
             modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+            modelBuilder.Entity<Subscription>().HasData(new Subscription[] { sub1, sub2, sub3, sub4 });
 
             //UserSubscriptions userSubscriptions1 = new UserSubscriptions
             //{
