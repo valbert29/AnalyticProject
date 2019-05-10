@@ -32,7 +32,6 @@ namespace VSZANAL
             var adminAvatar = "http://searchfoto.ru/img/xyygpKbDS18_Uy8xNLy3SS87P1Te0MI80KTXWK8hLBwA.jpg";
 
             var adminPeriod = new DateTime(9999, 12, 20);
-            // добавляем роли
             
             //var sub1 = new Subscription { Id = 1, Name = "GetAverageValue" };
             //var sub2 = new Subscription { Id = 2, Name = "GetExpectedValue" };
