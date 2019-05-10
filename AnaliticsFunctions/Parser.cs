@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AnaliticsFunctions
+namespace Functions
 {
     public class Parser
     {

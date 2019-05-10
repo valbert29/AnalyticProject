@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AnaliticsFunctions
+namespace Functions
 {
     public class MathFunctions:IMathFunc
     {
