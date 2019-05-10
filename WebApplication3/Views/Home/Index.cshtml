@@ -18,7 +18,7 @@
                                 <th>
                                     <select name="select" id="Method">
                                         @ViewData["Method"] = $("#Method option:selected").text();aszaa
-                                        @{ string[] methods = AnaliticsFunctions.Parser.GetMethods();
+                                        @{ string[] methods = Functions.Parser.GetMethods();
 
                                             for (int i = 0; i < methods.Length - 4; i++)
                                             {
@@ -48,16 +48,16 @@
                         string[] arr;
                         try
                         {
-                            names = AnaliticsFunctions
-                                .Parser.GetNames(AnaliticsFunctions
-                                .Parser.Reader(AnaliticsFunctions
+                            names = Functions
+                                .Parser.GetNames(Functions
+                                .Parser.Reader(Functions
                                 .Parser.FindLastFile(@"~\wwwroot\Files")));
-                            values = AnaliticsFunctions
-                                .Parser.GetValues(AnaliticsFunctions
-                                .Parser.Reader(AnaliticsFunctions
+                            values = Functions
+                                .Parser.GetValues(Functions
+                                .Parser.Reader(Functions
                                 .Parser.FindLastFile(@"~\wwwroot\Files")));
-                            arr = AnaliticsFunctions.Parser.GetArray(
-                                   AnaliticsFunctions.Parser.Reader(AnaliticsFunctions
+                            arr = Functions.Parser.GetArray(
+                                   Functions.Parser.Reader(Functions
                                .Parser.FindLastFile(@"~\wwwroot\Files")));
                         }
                         catch { names.Add("неверный формат данных"); }
@@ -65,7 +65,7 @@
                         double[] arrValues = values.ToArray();
 
                     }
-                    <script>
+                    @*<script>
                         google.charts.load("current", { packages: ["corechart"] });
                         google.charts.setOnLoadCallback(drawChart);
                         function drawChart(arr);
@@ -86,7 +86,7 @@
                             var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
                             chart.draw(data, options);
                         }
-                    </script>
+                    </script>*@
                     @*<script scr="../"></script>*@
 
                     <div id="chart_div" style="width: 550px; height: 300px;"></div>

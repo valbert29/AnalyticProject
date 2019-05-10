@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AnaliticsFunctions
+namespace Functions
 {
     public interface IMathFunc
     {
