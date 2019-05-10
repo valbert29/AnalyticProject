@@ -48,8 +48,13 @@ namespace Functions
             return Array.ConvertAll<MethodInfo, String>(typeof(MathFunctions)
                 .GetMethods(), delegate (MethodInfo fo)
                 { return fo.Name; });
-            //Type myType = typeof(MathFunctions);
-            //return myType.GetMethods();
+        }
+
+        public static void MethodCall(string name)
+        {
+            MathFunctions mf = new MathFunctions();
+            MethodInfo m = mf.GetType().GetMethod(name);
+            m.Invoke(mf, null);
         }
 
         public static string FindLastFile(string path)
