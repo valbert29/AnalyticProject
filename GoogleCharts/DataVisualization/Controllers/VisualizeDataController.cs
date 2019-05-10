@@ -40,11 +40,11 @@ namespace codemode_youtube.Controllers
                 names = Functions
                     .Parser.GetNames(Functions
                         .Parser.Reader(Functions
-                        .Parser.FindLastFile(@"~\Files"))).ToArray();
+                        .Parser.FindLastFile(@"~\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
                 values = Functions
                     .Parser.GetValues(Functions
                     .Parser.Reader(Functions
-                    .Parser.FindLastFile(@"~\Files"))).ToArray();
+                    .Parser.FindLastFile(@"~\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
             }
             catch
             {
