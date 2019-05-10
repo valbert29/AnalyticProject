@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VSZANAL", "WebApplication3\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnaliticsFunctions", "AnaliticsFunctions\AnaliticsFunctions.csproj", "{07F4319D-80A2-4DB8-8369-C30CFF202521}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizeGraphs", "MathFunction\DataVisualization\VisualizeGraphs.csproj", "{A709AA56-362F-4814-AFB0-3CEE8ACAD304}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleChartsUtilization", "GoogleCharts\DataVisualization\GoogleChartsUtilization.csproj", "{A709AA56-362F-4814-AFB0-3CEE8ACAD304}"
 	ProjectSection(ProjectDependencies) = postProject
-		{07F4319D-80A2-4DB8-8369-C30CFF202521} = {07F4319D-80A2-4DB8-8369-C30CFF202521}
+		{65AE832F-61DF-43C5-BA14-1BF3F922C94C} = {65AE832F-61DF-43C5-BA14-1BF3F922C94C}
 	EndProjectSection
 EndProject
 Global
