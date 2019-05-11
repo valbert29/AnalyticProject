@@ -49,11 +49,41 @@
         }
     </script>
 </head>
-<body> 
+
+<body>
+    <div class="col-3-4">
+        <p>Выберите Фильтр, по которому хотите провести анализ</p>
+        <form method="post" action='/VisualizeData/ColumnChart'>
+            <table>
+                <tr>
+                    <th>
+                        <select name="select" id="Method">
+                            @ViewData["Method"] = select;
+                            @{ string[] methods = Functions.Parser.GetMethods();
+
+                                for (int i = 0; i < methods.Length - 4; i++)
+                                {
+                                    <option value="@methods[i]">@methods[i]</option>
+                                }
+                            }
+
+
+                        </select>
+                    </th>
+                    <th><input type="submit" value="Apply" /></th>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+    <div class="col-2-5">
+        <textarea> Your  @ViewData["Method"] is @ViewData["result"] 
+                    </textarea>
+    </div>
     <div id="columnchart_div"></div>
     <a href="@Url.Action("PieChart")" class="btn btn-danger">Pie Chart</a>
     <a href="@Url.Action("ColumnChart")" class="active btn btn-primary">Column Chart</a>
-    <a href="@Url.Action("LineChart")" class="btn btn-warning">Line Chart</a> 
+    <a href="@Url.Action("LineChart")" class="btn btn-warning">Line Chart</a>
 </body>
 </html>
 

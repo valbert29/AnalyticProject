@@ -50,11 +50,12 @@ namespace Functions
                 { return fo.Name; });
         }
 
-        public static void MethodCall(string name)
+        public static double MethodCall(string name, List<string> values)
         {
+            object[] param = values.ToArray();
             MathFunctions mf = new MathFunctions();
             MethodInfo m = mf.GetType().GetMethod(name);
-            m.Invoke(mf, null);
+            m.Invoke(mf, param);
         }
 
         public static string FindLastFile(string path)
