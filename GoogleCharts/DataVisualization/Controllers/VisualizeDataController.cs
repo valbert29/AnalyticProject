@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,9 +12,17 @@ namespace codemode_youtube.Controllers
     public class VisualizeDataController : Controller
     {
     
-        public ActionResult ColumnChart()
+        public ActionResult ColumnChart(string select)
         {
-            return View();
+            List<string> Values = Functions
+                    .Parser.GetValues(Functions
+                    .Parser.Reader(Functions
+                    .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files")))
+                    .Select(s => s.ToString()).ToList();
+            
+            double result = Functions.Parser.MethodCall(select, Values);
+
+            return View(result);
         }
      
         public ActionResult PieChart()
@@ -40,11 +49,12 @@ namespace codemode_youtube.Controllers
                 names = Functions
                     .Parser.GetNames(Functions
                         .Parser.Reader(Functions
-                        .Parser.FindLastFile(@"~\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
+                        .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
                 values = Functions
                     .Parser.GetValues(Functions
                     .Parser.Reader(Functions
-                    .Parser.FindLastFile(@"~\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
+                    .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
+                //~\
             }
             catch
             {
