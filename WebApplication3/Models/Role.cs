@@ -57,6 +57,8 @@ namespace VSZANAL.Models
         NameDesc,   // по имени по убыванию
         TimeAsc, // по времени по возрастанию
         TimeDesc,    // по времени по убыванию
+        IdAsc, //по доп ID
+        IdDesc
     }
 
     public class Currency

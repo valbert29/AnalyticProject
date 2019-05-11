@@ -9,31 +9,25 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="AllUsers"  asp-route-sortOrder="@ViewBag.TimeSort">
+                <a asp-action="Index"  asp-route-sortOrder="@ViewBag.TimeSort">
                     Id
                 </a>
             </th>
             <th>
-                <a asp-action="AllUsers" asp-route-sortOrder="@ViewBag.NameSort">
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameS   ort">
                     Name
                 </a>
             </th>
             <th>
-                <p asp-action="AllUsers">
+                <p asp-action="Index">
                     Files
                 </p>
             </th>
             <th>
-                <p asp-action="AllUsers">
-                    Login
+                <p asp-action="Index">
+                    Subscriptions
                 </p>
             </th>
-            <th>
-                <p asp-action="AllUsers">
-                    Role
-                </p>
-            </th>
-
         </tr>
     </thead>
     <tbody>
@@ -49,17 +43,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a asp-action="Index" asp-route-id="@item.Id">Files</a>
+                    <a asp-action="Files" asp-controller="Admin" asp-route-id="@item.Id">Files</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Login)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Role.Name)
+                    <a asp-action="Subscriptions" asp-controller="Admin" asp-route-id="@item.Id">Subscriptions</a>
                 </td>
             </tr>
             //}
-
         }
     </tbody>
 </table>

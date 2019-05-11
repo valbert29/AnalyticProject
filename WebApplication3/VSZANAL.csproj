@@ -22,4 +22,13 @@
     <None Include="wwwroot\js\PieChart.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Admin\CreateSub.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Admin\Delete.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
