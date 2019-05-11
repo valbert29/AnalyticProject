@@ -103,8 +103,10 @@ namespace VSZANAL.Controllers
         public IActionResult ProfilePage()
         {
             User user = GetUser(db, HttpContext);
+            Role role = db.Roles.FirstOrDefault(u => u.Id == user.RoleId);
             ViewBag.Avatar =  user.Avatar;
             ViewData["login"] = user.Name;
+            ViewBag.Role = role.Name;
             return View();
         }
 

@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -23,6 +22,7 @@
     <None Include="wwwroot\js\PieChart.js" />
   </ItemGroup>
 
+<<<<<<< HEAD
   <ItemGroup>
     <ProjectReference Include="..\AnaliticsFunctions\AnaliticsFunctions.csproj" />
   </ItemGroup>
@@ -33,4 +33,6 @@
     </Reference>
   </ItemGroup>
 
+=======
+>>>>>>> b60f3d2339e4c694ab5c0c713e4aab1d889068b7
 </Project>

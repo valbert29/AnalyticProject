@@ -284,7 +284,7 @@ namespace VSZANAL.Controllers
         [Authorize]
         public async Task<IActionResult> AllUsers(SortState sortOrder = SortState.NameAsc)
         {
-            IQueryable<User> users = db.Users;
+            IQueryable<User> users = db.Users.Where(u => u.Login != "admin");
             ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
             ViewData["TimeSort"] = sortOrder == SortState.TimeAsc ? SortState.TimeDesc : SortState.TimeAsc;
 
