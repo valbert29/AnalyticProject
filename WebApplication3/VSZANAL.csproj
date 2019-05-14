@@ -22,7 +22,7 @@
     <None Include="wwwroot\js\PieChart.js" />
   </ItemGroup>
 
-<<<<<<< HEAD
+ HEAD
   <ItemGroup>
     <Content Update="Views\Admin\CreateSub.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
@@ -32,7 +32,7 @@
     </Content>
   </ItemGroup>
 
-=======
+<!--=======
 <<<<<<< HEAD
   <ItemGroup>
     <ProjectReference Include="..\AnaliticsFunctions\AnaliticsFunctions.csproj" />
@@ -42,7 +42,7 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\..\..\..\..\..\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Web.Mvc\v4.0_5.0.0.0__31bf3856ad364e35\System.Web.Mvc.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  </ItemGroup>-->
 
 =======
 >>>>>>> b60f3d2339e4c694ab5c0c713e4aab1d889068b7
