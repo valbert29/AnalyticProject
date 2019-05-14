@@ -31,16 +31,24 @@ namespace Functions
             Dictionary<double, int> repeat = GetRepeat(list);
             foreach (var item in list)
             {
-                int itemcount = repeat.Where(x => x.Key == item).FirstOrDefault().Value;
+                int itemcount = repeat.Where(x => x.Key == item).FirstOrDefault().Value + 1;
                 sum += item * (itemcount / list.Count);
             }
-            return sum;
+            return GetAverageValue(list);
+        }
+        public double GetMaxValue(List<double> list)
+        {
+            return list.Max();
+        }
+        public double GetMinValue(List<double> list)
+        {
+            return list.Min();
         }
 
         public double GetDispersion(List<double> list)
         {
             double MathExecValue = GetExpectedValue(list.Select(x => x * x).ToList());
-            return MathExecValue - Math.Pow((GetExpectedValue(list)), 2);
+            return (MathExecValue - Math.Pow((GetExpectedValue(list)), 2))/list.Count();
         }
 
         public double GetSquareDeviation(List<double> list)
