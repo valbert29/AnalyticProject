@@ -14,13 +14,13 @@ namespace codemode_youtube.Controllers
 
         public ActionResult ColumnChart(string select)
         {
-            List<string> Values = Functions
+            List<double> Values = Functions
                     .Parser.GetValues(Functions
                     .Parser.Reader(Functions
                     .Parser.FindLastFile(@"C:\Program Files (x86)\IIS Express\Files")))
-                    .Select(s => s.ToString()).ToList();
+                    .ToList();
 
-            string result =/* Functions.Parser.MethodCall(select, Values);*/select;
+            double result = Functions.Parser.MethodCall(select, Values);
             ViewData["result"] = result;
             return View();
         }

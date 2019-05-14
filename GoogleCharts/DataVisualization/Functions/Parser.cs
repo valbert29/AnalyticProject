@@ -50,13 +50,18 @@ namespace Functions
                 { return fo.Name; });
         }
 
-        //public static double MethodCall(string name, List<string> values)
-        //{
-        //    object[] param = values.ToArray();
-        //    MathFunctions mf = new MathFunctions();
-        //    MethodInfo m = mf.GetType().GetMethod(name);
-        //    m.Invoke(mf, param);
-        //}
+        public static double MethodCall(string name, List<double> values)
+        {
+            object[] param = new object[] { values };
+            MathFunctions mf = new MathFunctions();
+            MethodInfo m;
+            double result = 0;
+            try
+            { m = mf.GetType().GetMethod(name); }
+            catch { return result; }
+            result = (double)m.Invoke(mf, param);
+            return result;
+        }
 
         public static string FindLastFile(string path)
         {
