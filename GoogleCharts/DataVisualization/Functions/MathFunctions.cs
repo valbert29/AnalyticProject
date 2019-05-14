@@ -14,7 +14,7 @@ namespace Functions
             {
                 sum += v;
             }
-            return sum / list.Count; 
+            return sum / list.Count;
         }
 
         internal static Dictionary<double, int> GetRepeat(List<double> list)
@@ -42,7 +42,7 @@ namespace Functions
             double MathExecValue = GetExpectedValue(list.Select(x => x * x).ToList());
             return MathExecValue - Math.Pow((GetExpectedValue(list)), 2);
         }
-   
+
         public double GetSquareDeviation(List<double> list)
         {
             return Math.Sqrt(GetDispersion(list));

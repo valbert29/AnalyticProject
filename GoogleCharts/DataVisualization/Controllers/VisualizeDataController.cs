@@ -11,35 +11,35 @@ namespace codemode_youtube.Controllers
 {
     public class VisualizeDataController : Controller
     {
-    
+
         public ActionResult ColumnChart(string select)
         {
             List<string> Values = Functions
                     .Parser.GetValues(Functions
                     .Parser.Reader(Functions
-                    .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files")))
+                    .Parser.FindLastFile(@"C:\Program Files (x86)\IIS Express\Files")))
                     .Select(s => s.ToString()).ToList();
-            
-            double result = Functions.Parser.MethodCall(select, Values);
 
-            return View(result);
+            string result =/* Functions.Parser.MethodCall(select, Values);*/select;
+            ViewData["result"] = result;
+            return View();
         }
-     
+
         public ActionResult PieChart()
         {
             return View();
         }
- 
+
         public ActionResult LineChart()
         {
             return View();
         }
-         
+
         public ActionResult VisualizeData()
-        { 
+        {
             return Json(Result(), JsonRequestBehavior.AllowGet);
         }
-         
+
         public List<Data> Result()
         {
             string[] names;
@@ -49,11 +49,11 @@ namespace codemode_youtube.Controllers
                 names = Functions
                     .Parser.GetNames(Functions
                         .Parser.Reader(Functions
-                        .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
+                        .Parser.FindLastFile(@"C:\Program Files (x86)\IIS Express\Files"))).ToArray();
                 values = Functions
                     .Parser.GetValues(Functions
                     .Parser.Reader(Functions
-                    .Parser.FindLastFile(@"C:\Users\darya\OneDrive\Рабочий стол\AnalyticProject\WebApplication3\wwwroot\Files"))).ToArray();
+                    .Parser.FindLastFile(@"C:\Program Files (x86)\IIS Express\Files"))).ToArray();
                 //~\
             }
             catch
@@ -71,8 +71,8 @@ namespace codemode_youtube.Controllers
                     Values = values[i]
                 });
             }
-            
+
             return data;
         }
     }
-} 
+}

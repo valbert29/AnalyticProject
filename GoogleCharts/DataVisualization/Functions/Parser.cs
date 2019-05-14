@@ -32,7 +32,7 @@ namespace Functions
             string[] arr = new string[dict.Count()];
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[i] = arrNames[i] +", "+ arrValues[i];
+                arr[i] = arrNames[i] + ", " + arrValues[i];
             }
             return arr;
         }
@@ -50,13 +50,13 @@ namespace Functions
                 { return fo.Name; });
         }
 
-        public static double MethodCall(string name, List<string> values)
-        {
-            object[] param = values.ToArray();
-            MathFunctions mf = new MathFunctions();
-            MethodInfo m = mf.GetType().GetMethod(name);
-            m.Invoke(mf, param);
-        }
+        //public static double MethodCall(string name, List<string> values)
+        //{
+        //    object[] param = values.ToArray();
+        //    MathFunctions mf = new MathFunctions();
+        //    MethodInfo m = mf.GetType().GetMethod(name);
+        //    m.Invoke(mf, param);
+        //}
 
         public static string FindLastFile(string path)
         {
