@@ -1,0 +1,67 @@
+﻿@model IEnumerable<VSZANAL.Models.Subscription>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="CreateSub" asp-route-id="@ViewBag.userId">Create New Subscription</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Subscriptions" asp-route-sortOrder="@ViewBag.IdSort">
+                    Id
+                </a>
+            </th>
+            <th>
+                <p asp-action="Subscriptions">
+                    Name
+                </p>
+            </th>
+            <th>
+                <a asp-action="Subscriptions" asp-route-sortOrder="@ViewBag.TimeSort">
+                    Period
+                </a>
+            </th>
+            <th>
+                <p>
+                    UserId
+                </p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.UserId == ViewBag.login)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Period)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <th></th>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
